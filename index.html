@@ -10,7 +10,7 @@ function send()
 
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = callbackFunction(xmlhttp);
-    xmlhttp.open("GET", URL, false);
+    xmlhttp.open("GET", URL, true);
     xmlhttp.setRequestHeader("Content-Type", "application/json");
     xmlhttp.onreadystatechange = callbackFunction(xmlhttp);
     alert(xmlhttp.responseText);
