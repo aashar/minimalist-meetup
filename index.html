@@ -6,7 +6,7 @@
 <script type="text/javascript">
 function send()
 {
-    URL = "https://api.meetup.com/dashboard";  //Your URL
+    URL = "https://api.meetup.com/find/upcoming_events";  //Your URL
 
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = callbackFunction(xmlhttp);
@@ -19,7 +19,7 @@ function send()
 
 function callbackFunction(xmlhttp) 
 {
-    alert(xmlhttp.responseXML);
+    alert("Callback:" + xmlhttp.responseXML);
     document.getElementById("response").innerHTML = xmlhttp.statusText + ":" + xmlhttp.status + "<BR><textarea rows='100' cols='100'>" + xmlhttp.responseText + "</textarea>";
 }
 </script>
