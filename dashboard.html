@@ -22,7 +22,7 @@ function send()
     }
 
     $.ajax({
-	url: URL, dataType: "jsonp"
+	url: URL, dataType: "jsonp", jsonpCallback: "jsonCallback"
     });
 
 //    var xmlhttp = new XMLHttpRequest();
