@@ -15,14 +15,23 @@ function getAccessToken( ) {
    return new URL(res1).searchParams.get('access_token');
 }
 
-function jsonCallback(json){
+function dashboardCallback(json){
    console.log(json);
-   document.getElementById("response").innerHTML = "<textarea rows='100' cols='100'>" + JSON.stringify(json) + "</textarea>";
+  var para = document.createElement("p");
+  para.innerHTML = 
+	 "Prev:<A HREF='" + response.last_event.event_url + "'>" + response.last_event.name + "</A> at " +
+		"<A HREF='https://www.google.com/maps/search/?api=1&query=" + response.last_event.venue.lat + "," +
+		response.last_event.venue.lon + "'>" + response.last_event.venue.city + ", " +
+		response.last_event.venue.state + "</A> on " + new Date(response.last_event.time).toDateString() + "<BR/>" +
+	 "Next:<A HREF='" + response.next_event.event_url + "'>" + response.next_event.name + "</A> at " +
+		"<A HREF='https://www.google.com/maps/search/?api=1&query=" + response.next_event.venue.lat + "," +
+		response.next_event.venue.lon + "'>" + response.next_event.venue.city + ", " + response.next_event.venue.state + "</A> on " + new Date(response.next_event.time).toDateString();
+  document.getElementById("response").appendChild(para);
 }
 
-function send() {
+function requestDashboard() {
     var URL = "https://api.meetup.com/dashboard?access_token=" + getAccessToken();
-    $.ajax({ url: URL, dataType: "jsonp", jsonpCallback: "jsonCallback" });
+    $.ajax({ url: URL, dataType: "jsonp", jsonpCallback: "dashboardCallback" });
 }
 
 function startIt() {
@@ -31,7 +40,7 @@ function startIt() {
       window.location.href = authUrl;
    }
    else {
-      send();
+      requestDashboard();
    }
 }
 
