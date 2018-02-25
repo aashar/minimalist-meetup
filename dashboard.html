@@ -12,6 +12,7 @@ function getAccessToken( ) {
 function send()
 {
     var URL = "https://api.meetup.com/dashboard?access_token=" + getAccessToken();
+    console.log(URL);
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = callbackFunction(xmlhttp);
     xmlhttp.open("GET", URL, true);
@@ -23,8 +24,8 @@ function send()
 
 function callbackFunction(xmlhttp) 
 {
-	alert("Access Token:" + getAccessToken());
-    alert("Callback:" + xmlhttp.responseXML);
+    alert("Access Token:" + getAccessToken());
+    alert("Callback:" + JSON.stringify(xmlhttp));
     document.getElementById("response").innerHTML = xmlhttp.statusText + ":" + xmlhttp.status + "<BR><textarea rows='100' cols='100'>" + xmlhttp.responseText + "</textarea>";
 }
 </script>
