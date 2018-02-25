@@ -21,13 +21,7 @@
 </div>
 </div></p>
 <script type="text/javascript">
-var notifications=[];
-var notifList = new Vue({
-   el: '#notificationsList',
-   data() {
-    return  { notifications;  };
-  }
-})
+var notifList;
 
 function getAccessToken( ) {
    var res1 = window.location.href.replace("#","?");
@@ -54,7 +48,10 @@ function dashboardCallback(response){
 
 function notificationsCallback(response){
    console.log(response);
-   notifications = response;
+   notifList = new Vue({
+   el: '#notificationsList',
+   data : response
+   })
 }
 
 function requestDashboard() {
