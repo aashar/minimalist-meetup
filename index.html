@@ -3,9 +3,48 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Minimalist Meetup</title>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  
+<script type="text/javascript">
+function getAccessToken( ) {
+   var res1 = window.location.href.replace("#","?");
+   return new URL(res1).searchParams.get('access_token');
+}
+
+function jsonCallback(json){
+   console.log(json);
+   document.getElementById("response").innerHTML = "<textarea rows='100' cols='100'>" + JSON.stringify(json) + "</textarea>";
+}
+
+function send() {
+    var URL = "https://api.meetup.com/dashboard?access_token=" + getAccessToken();
+    $.ajax({ url: URL, dataType: "jsonp", jsonpCallback: "jsonCallback" });
+}
+
+function callbackFunction(xmlhttp) {
+//    alert("Access Token:" + getAccessToken());
+//    alert("Callback:" + xmlhttp.responseXML);
+    document.getElementById("response").innerHTML = xmlhttp.statusText + ":" + xmlhttp.status + "<BR><textarea rows='100' cols='100'>" + xmlhttp.responseText + "</textarea>";
+}
+
+function startIt() {
+   if (getAccessToken() === null) {
+      var authUrl = "https://secure.meetup.com/oauth2/authorize?client_id=utrb5b1laqujntlbvvs4rg6p7h&response_type=code&redirect_uri=https://rawgit.com/aashar/minimalist-meetup/master/index.html";
+      window.location.href = authUrl;
+   }
+   else {
+      send();
+   }
+}
+
+</script>
 </head>
-<body>
-	<h1>Minimalist Meetup</h1>
-	<p><a href="https://secure.meetup.com/oauth2/authorize?client_id=utrb5b1laqujntlbvvs4rg6p7h&response_type=token&redirect_uri=https://rawgit.com/aashar/minimalist-meetup/master/dashboard.html">Get Token</a></p>
+<body onload="startIt()">
+<h1>Minimalist Meetup</h1>
+<p><div id="response"></div></p>
 </body>
 </html>
