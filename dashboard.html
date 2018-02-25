@@ -5,13 +5,13 @@
 <title>Minimalist Meetup</title>
 <script type="text/javascript">
 function getAccessToken( ) {
-    var res1 = window.location.href.replace("#","?");
-    return new URL(res2).searchParams.get('access_token');
+	var res1 = window.location.href.replace("#","?");
+	return new URL(res1).searchParams.get('access_token');
 }
 
 function send()
 {
-    var URL = "https://api.meetup.com/dashboard" + "?" + "access_token=" + getAccessToken();
+    var URL = "https://api.meetup.com/dashboard?access_token=" + getAccessToken();
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = callbackFunction(xmlhttp);
     xmlhttp.open("GET", URL, true);
