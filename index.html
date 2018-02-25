@@ -32,7 +32,7 @@ function callbackFunction(xmlhttp) {
 }
 
 function startIt() {
-   if (getAccessToken() === null) {
+   if (getAccessToken() == null) {
       var authUrl = "https://secure.meetup.com/oauth2/authorize?client_id=utrb5b1laqujntlbvvs4rg6p7h&response_type=code&redirect_uri=https://rawgit.com/aashar/minimalist-meetup/master/index.html";
       window.location.href = authUrl;
    }
