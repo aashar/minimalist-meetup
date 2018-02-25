@@ -32,7 +32,7 @@ function send()
 
 function callbackFunction(xmlhttp) 
 {
-	alert(getUrlParams());
+    alert(JSON.stringify(getUrlParams()));
     alert("Callback:" + xmlhttp.responseXML);
     document.getElementById("response").innerHTML = xmlhttp.statusText + ":" + xmlhttp.status + "<BR><textarea rows='100' cols='100'>" + xmlhttp.responseText + "</textarea>";
 }
