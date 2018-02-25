@@ -5,8 +5,8 @@
 <title>Minimalist Meetup</title>
 <script type="text/javascript">
 function getAccessToken( prop ) {
-    var urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('access_token');
+    return JSON.stringify(new URLSearchParams(window.location.search));
+//    return urlParams.get('access_token');
 }
 
 function send()
