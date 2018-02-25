@@ -13,10 +13,10 @@
 <body onload="startIt()" style="font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;">
 <p style="font-family:impact; color:gray">Minimalist Meetup</p>
 <p><div id="content">
-<div id="summary"></div>
+<div id="summary" style="background:#f8f8f8;border-radius:0px 20px 20px 0px; padding:10px;line-height:1.5"></div>
 <div id="notificationsList" style="background:#f8f8f8;border-radius:0px 20px 20px 0px; padding:10px;line-height:1.5">
    <span v-for="notif in data">
-      <a v-bind:href=notif.link>Html.Raw({{ notif.text }})</a><br/>
+      <a v-bind:href=notif.link>{{ notif.text }}</a><br/>
    </span>
 </div>
 </div></p>
@@ -31,10 +31,6 @@ function getAccessToken( ) {
 function dashboardCallback(response){
    console.log(response);
   var para = document.createElement("p");
-  para.style.background = "#f8f8f8";
-  para.style.borderRadius = "0px 20px 20px 0px";
-  para.style.padding = "10px";
-  para.style.lineHeight = "1.5";
   para.innerHTML = 
 	"Prev:<A HREF='" + response.last_event.event_url + "'>" + response.last_event.name + "</A> at " +
 		"<A HREF='https://www.google.com/maps/search/?api=1&query=" + response.last_event.venue.lat + "," +
