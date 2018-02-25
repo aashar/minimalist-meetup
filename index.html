@@ -10,13 +10,13 @@
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   
 </head>
-<body onload="startIt()">
-<h1>Minimalist Meetup</h1>
+<body onload="startIt()" style="font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;">
+<p style="font-family:impact; color:gray">Minimalist Meetup</p>
 <p><div id="content">
 <div id="summary"></div>
 <div id="notificationsList" style="background:#f8f8f8;border-radius:0px 20px 20px 0px; padding:10px;line-height:1.5">
    <span v-for="notif in data">
-      <a v-bind:href=notif.link>{{ notif.text }}</a><br/>
+      <a v-bind:href=notif.link>Html.Raw({{ notif.text }})</a><br/>
    </span>
 </div>
 </div></p>
