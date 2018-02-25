@@ -4,6 +4,19 @@
 <meta charset="ISO-8859-1">
 <title>Minimalist Meetup</title>
 <script type="text/javascript">
+function getUrlParams( prop ) {
+    var params = {};
+    var search = decodeURIComponent( window.location.href.slice( window.location.href.indexOf( '?' ) + 1 ) );
+    var definitions = search.split( '&' );
+
+    definitions.forEach( function( val, key ) {
+        var parts = val.split( '=', 2 );
+        params[ parts[ 0 ] ] = parts[ 1 ];
+    } );
+
+    return ( prop && prop in params ) ? params[ prop ] : params;
+}
+
 function send()
 {
     URL = "https://api.meetup.com/dashboard";  //Your URL
@@ -13,12 +26,13 @@ function send()
     xmlhttp.open("GET", URL, true);
     xmlhttp.setRequestHeader("Content-Type", "application/json");
     xmlhttp.onreadystatechange = callbackFunction(xmlhttp);
-    alert("Send:" + xmlhttp.responseText);
-    document.getElementById("response").innerHTML = xmlhttp.statusText + ":" + xmlhttp.status + "<BR><textarea rows='100' cols='100'>" + xmlhttp.responseText + "</textarea>";
+//    alert(xmlhttp.responseText);
+//    document.getElementById("response").innerHTML = xmlhttp.statusText + ":" + xmlhttp.status + "<BR><textarea rows='100' cols='100'>" + xmlhttp.responseText + "</textarea>";
 }
 
 function callbackFunction(xmlhttp) 
 {
+	alert(getUrlParams());
     alert("Callback:" + xmlhttp.responseXML);
     document.getElementById("response").innerHTML = xmlhttp.statusText + ":" + xmlhttp.status + "<BR><textarea rows='100' cols='100'>" + xmlhttp.responseText + "</textarea>";
 }
