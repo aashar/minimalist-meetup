@@ -17,14 +17,13 @@ function send()
 {
     var URL = "https://api.meetup.com/dashboard?access_token=" + getAccessToken();
 
-    fetch(URL)
-	.then((resp) => resp.json())
-	.then(function(data) {
-	  console.log(JSON.parse(data.results));
-	})
-	.catch(function(error) {
-	  console.log(error);
-	}); 
+    function jsonCallback(json){
+  	console.log(json);
+    }
+
+    $.ajax({
+	url: URL, dataType: "jsonp"
+    });
 
 //    var xmlhttp = new XMLHttpRequest();
 //    xmlhttp.onreadystatechange = callbackFunction(xmlhttp);
