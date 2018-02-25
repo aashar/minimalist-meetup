@@ -7,6 +7,8 @@
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  
 <script type="text/javascript">
 function getAccessToken( ) {
 	var res1 = window.location.href.replace("#","?");
@@ -15,7 +17,7 @@ function getAccessToken( ) {
 
 function jsonCallback(json){
   console.log(json);
-  document.getElementById("response").innerHTML = "<textarea rows='100' cols='100'>" + json + "</textarea>";
+  document.getElementById("response").innerHTML = "<textarea rows='100' cols='100'>" + JSON.stringify(json) + "</textarea>";
 }
 
 function send()
