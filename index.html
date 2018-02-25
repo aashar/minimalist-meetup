@@ -24,7 +24,9 @@
 var notifications=[];
 var notifList = new Vue({
    el: '#notificationsList',
-   data: notifications
+   data() {
+    return  { notifications;  };
+  }
 })
 
 function getAccessToken( ) {
