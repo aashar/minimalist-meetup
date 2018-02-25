@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Minimalist Meetup</title>
+<script type="text/javascript">
+function send()
+{
+    URL = "https://api.meetup.com/dashboard";  //Your URL
+
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = callbackFunction(xmlhttp);
+    xmlhttp.open("GET", URL, true);
+    xmlhttp.setRequestHeader("Content-Type", "application/json");
+    xmlhttp.onreadystatechange = callbackFunction(xmlhttp);
+    alert("Send:" + xmlhttp.responseText);
+    document.getElementById("response").innerHTML = xmlhttp.statusText + ":" + xmlhttp.status + "<BR><textarea rows='100' cols='100'>" + xmlhttp.responseText + "</textarea>";
+}
+
+function callbackFunction(xmlhttp) 
+{
+    alert("Callback:" + xmlhttp.responseXML);
+    document.getElementById("response").innerHTML = xmlhttp.statusText + ":" + xmlhttp.status + "<BR><textarea rows='100' cols='100'>" + xmlhttp.responseText + "</textarea>";
+}
+</script>
+</head>
+<body>
+	<h1>Minimalist Meetup</h1>
+	<p><a href="javascript:send()">Get Dashboard</a></p>
+	<p><div id="response"></div></p>
+</body>
+</html>
