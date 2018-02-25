@@ -4,16 +4,14 @@
 <meta charset="ISO-8859-1">
 <title>Minimalist Meetup</title>
 <script type="text/javascript">
-function getAccessToken( prop ) {
-    console.log(window.location.href);
-    return JSON.stringify(new URLSearchParams(window.location.search));
-//    return urlParams.get('access_token');
+function getAccessToken( ) {
+    var res1 = window.location.href.replace("#","?");
+    return new URL(res2).searchParams.get('access_token');
 }
 
 function send()
 {
-    URL = "https://api.meetup.com/dashboard";  //Your URL
-
+    var URL = "https://api.meetup.com/dashboard" + "?" + "access_token=" + getAccessToken();
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = callbackFunction(xmlhttp);
     xmlhttp.open("GET", URL, true);
@@ -25,7 +23,7 @@ function send()
 
 function callbackFunction(xmlhttp) 
 {
-    alert("Access Token:" + getAccessToken());
+	alert("Access Token:" + getAccessToken());
     alert("Callback:" + xmlhttp.responseXML);
     document.getElementById("response").innerHTML = xmlhttp.statusText + ":" + xmlhttp.status + "<BR><textarea rows='100' cols='100'>" + xmlhttp.responseText + "</textarea>";
 }
