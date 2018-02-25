@@ -3,6 +3,10 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Minimalist Meetup</title>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
 <script type="text/javascript">
 function getAccessToken( ) {
 	var res1 = window.location.href.replace("#","?");
@@ -12,20 +16,29 @@ function getAccessToken( ) {
 function send()
 {
     var URL = "https://api.meetup.com/dashboard?access_token=" + getAccessToken();
-    console.log(URL);
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = callbackFunction(xmlhttp);
-    xmlhttp.open("GET", URL, true);
-    xmlhttp.setRequestHeader("Content-Type", "application/json");
-    xmlhttp.onreadystatechange = callbackFunction(xmlhttp);
+
+    fetch(URL)
+	.then((resp) => resp.json())
+	.then(function(data) {
+	  console.log(JSON.parse(data.results));
+	})
+	.catch(function(error) {
+	  console.log(error);
+	}); 
+
+//    var xmlhttp = new XMLHttpRequest();
+//    xmlhttp.onreadystatechange = callbackFunction(xmlhttp);
+//    xmlhttp.open("GET", URL, true);
+//    xmlhttp.setRequestHeader("Content-Type", "application/json");
+//    xmlhttp.onreadystatechange = callbackFunction(xmlhttp);
 //    alert(xmlhttp.responseText);
 //    document.getElementById("response").innerHTML = xmlhttp.statusText + ":" + xmlhttp.status + "<BR><textarea rows='100' cols='100'>" + xmlhttp.responseText + "</textarea>";
 }
 
 function callbackFunction(xmlhttp) 
 {
-    alert("Access Token:" + getAccessToken());
-    alert("Callback:" + JSON.stringify(xmlhttp));
+	alert("Access Token:" + getAccessToken());
+    alert("Callback:" + xmlhttp.responseXML);
     document.getElementById("response").innerHTML = xmlhttp.statusText + ":" + xmlhttp.status + "<BR><textarea rows='100' cols='100'>" + xmlhttp.responseText + "</textarea>";
 }
 </script>
