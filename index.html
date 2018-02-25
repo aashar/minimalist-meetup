@@ -15,8 +15,8 @@ function getAccessToken( ) {
    return new URL(res1).searchParams.get('access_token');
 }
 
-function dashboardCallback(json){
-   console.log(json);
+function dashboardCallback(response){
+   console.log(response);
   var para = document.createElement("p");
   para.innerHTML = 
 	 "Prev:<A HREF='" + response.last_event.event_url + "'>" + response.last_event.name + "</A> at " +
