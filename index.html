@@ -16,7 +16,8 @@
 <div id="summary" style="background:#f8f8f8;border-radius:0px 20px 20px 0px; padding:10px;line-height:1.5"></div><br/>
 <div id="notificationsList" style="background:#f8f8f8;border-radius:0px 20px 20px 0px; padding:10px;line-height:1.5">
    <span v-for="notif in data">
-      <a v-bind:href=notif.link>{{ notif.text }}</a><br/>
+	<p v-on:click=notif.link>{{ notif.text }}</p><br/>
+	   <!--a v-bind:href=notif.link>{{ notif.text }}</a><br/-->
    </span>
 </div>
 </div></p>
