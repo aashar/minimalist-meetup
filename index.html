@@ -37,7 +37,7 @@ function dashboardCallback(response){
 		"<A HREF='https://www.google.com/maps/search/?api=1&query=" + response.next_event.venue.lat + "," +
 		response.next_event.venue.lon + "'>" + response.next_event.venue.city + ", " + response.next_event.venue.state +
 	  	"</A> on " + new Date(response.next_event.time).toDateString() +
-	"<BR/><A HREF='events.html'>more...</A>";
+	"<BR/><A HREF='events.html#access_token=" + getAccessToken() + "'>more...</A>";
   document.getElementById("summary").appendChild(para);
 }
 
