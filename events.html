@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Minimalist Meetup</title>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+</head>
+<body onload="startIt()">
+<p style="font-family:impact; color:gray">Minimalist Meetup - Events</p>
+<div id="eventsList" style="background:#f8f8f8;border-radius:0px 20px 20px 0px; padding:10px;line-height:1.5">
+<table id="eventsGrid" class="display" cellspacing="0" width="100%">
+<thead><tr><th>Event</th></tr></thead>
+</table>
+</div>
+<script type="text/javascript">
+function getAccessToken( ) {
+   var res1 = window.location.href.replace("#","?");
+   return new URL(res1).searchParams.get('access_token');
+}
+
+function eventsCallback(response){
+$(eventsGrid).DataTable( {
+  "paging":   false,
+  "ordering": false,
+  "info":     false
+  data: response.events,
+	"columns": [
+    { "data": "name",
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+            $(nTd).html("<a href='"+oData.link+"'>"+oData.name+"</a>");
+        }
+    }
+  ]
+} );
+}
+
+function requestEvents() {
+    var URL = "https://api.meetup.com/find/upcoming_events?access_token=" + getAccessToken();
+    $.ajax({ url: URL, dataType: "jsonp", jsonpCallback: "eventsCallback" });
+}
+
+function startIt() {
+   if (getAccessToken() == null) {
+      var authUrl = "https://secure.meetup.com/oauth2/authorize?client_id=utrb5b1laqujntlbvvs4rg6p7h&response_type=token&redirect_uri=https://rawgit.com/aashar/minimalist-meetup/master/index.html";
+      window.location.href = authUrl;
+   }
+   else {
+      requestEvents();
+   }
+}
+</script>
+</body>
+</html>
