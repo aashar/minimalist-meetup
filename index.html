@@ -10,10 +10,10 @@
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   
 </head>
-<body onload="startIt()" style="font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;">
+<body onload="startIt()">
 <p style="font-family:impact; color:gray">Minimalist Meetup</p>
 <p><div id="content">
-<div id="summary" style="background:#f8f8f8;border-radius:0px 20px 20px 0px; padding:10px;line-height:1.5"></div>
+<div id="summary" style="background:#f8f8f8;border-radius:0px 20px 20px 0px; padding:10px;line-height:1.5"></div><br/>
 <div id="notificationsList" style="background:#f8f8f8;border-radius:0px 20px 20px 0px; padding:10px;line-height:1.5">
    <span v-for="notif in data">
       <a v-bind:href=notif.link>{{ notif.text }}</a><br/>
@@ -29,7 +29,6 @@ function getAccessToken( ) {
 }
 
 function dashboardCallback(response){
-   console.log(response);
   var para = document.createElement("p");
   para.innerHTML = 
 	"Prev:<A HREF='" + response.last_event.event_url + "'>" + response.last_event.name + "</A> at " +
@@ -38,12 +37,13 @@ function dashboardCallback(response){
 		response.last_event.venue.state + "</A> on " + new Date(response.last_event.time).toDateString() + "<BR/>" +
 	"Next:<A HREF='" + response.next_event.event_url + "'>" + response.next_event.name + "</A> at " +
 		"<A HREF='https://www.google.com/maps/search/?api=1&query=" + response.next_event.venue.lat + "," +
-		response.next_event.venue.lon + "'>" + response.next_event.venue.city + ", " + response.next_event.venue.state + "</A> on " + new Date(response.next_event.time).toDateString();
+		response.next_event.venue.lon + "'>" + response.next_event.venue.city + ", " + response.next_event.venue.state +
+	  	"</A> on " + new Date(response.next_event.time).toDateString() +
+	"<BR/><A HREF='events.html'>more...</A>";
   document.getElementById("summary").appendChild(para);
 }
 
 function notificationsCallback(response){
-   console.log(response);
    notifList = new Vue({
    el: '#notificationsList',
    data : response
