@@ -47,7 +47,10 @@ for (var key in response.data) {
    notifData.push(response.data[key]);
 }
 $(notificationsGrid).DataTable( {
-   data: notifData,
+   "paging":   false,
+   "ordering": false,
+   "info":     false
+    data: notifData,
 	"columns": [
     { "data": "text",
         "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
