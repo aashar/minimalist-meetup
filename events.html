@@ -27,7 +27,7 @@ function eventsCallback(response){
 $(eventsGrid).DataTable( {
   "paging":   false,
   "ordering": false,
-  "info":     false
+  "info":     false,
   data: response.events,
 	"columns": [
     { "data": "name",
