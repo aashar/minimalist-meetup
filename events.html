@@ -28,7 +28,7 @@ $(eventsGrid).DataTable( {
   "paging":   false,
   "ordering": false,
   "info":     false,
-  data: response.events,
+  data: response.data.events,
 	"columns": [
     { "data": "name",
         "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
