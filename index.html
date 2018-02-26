@@ -42,23 +42,24 @@ function dashboardCallback(response){
 }
 
 function notificationsCallback(response){
-var notifData = [];
-for (var key in response.data) {
-   notifData.push(response.data[key]);
-}
-$(notificationsGrid).DataTable( {
-   "paging":   false,
-   "ordering": false,
-   "info":     false
-    data: notifData,
-	"columns": [
-    { "data": "text",
-        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-            $(nTd).html("<a href='"+oData.link+"'>"+oData.text+"</a>");
-        }
-    }
- ]
-} );
+   var notifData = [];
+   for (var key in response.data) {
+      notifData.push(response.data[key]);
+   }
+
+   $(notificationsGrid).DataTable( {
+      "paging":   false,
+      "ordering": false,
+      "info":     false
+      data: notifData,
+	 "columns": [
+	    { "data": "text",
+	      "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+		 $(nTd).html("<a href='"+oData.link+"'>"+oData.text+"</a>");
+	      }
+	    }
+	 ]
+   } );
 }
 
 function requestDashboard() {
