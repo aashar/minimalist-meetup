@@ -43,8 +43,8 @@ function dashboardCallback(response){
 
 function notificationsCallback(response){
 var notifData = [];
-for (var key in response) {
-   notifData.push(response[key]);
+for (var key in response.data) {
+   notifData.push(response.data[key]);
 }
 $(notificationsGrid).DataTable( {
    data: notifData,
