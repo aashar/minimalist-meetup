@@ -7,18 +7,15 @@
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-  
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>  
 </head>
 <body onload="startIt()">
 <p style="font-family:impact; color:gray">Minimalist Meetup</p>
 <p><div id="content">
 <div id="summary" style="background:#f8f8f8;border-radius:0px 20px 20px 0px; padding:10px;line-height:1.5"></div><br/>
 <div id="notificationsList" style="background:#f8f8f8;border-radius:0px 20px 20px 0px; padding:10px;line-height:1.5">
-   <span v-for="notif in data">
-	<p v-on:click=notif.link>{{ notif.text }}</p>
-	   <!--a v-bind:href=notif.link>{{ notif.text }}</a><br/-->
-   </span>
+<table id="notificationsGrid" class="display" cellspacing="0" width="100%">
 </div>
 </div></p>
 <script type="text/javascript">
@@ -45,10 +42,20 @@ function dashboardCallback(response){
 }
 
 function notificationsCallback(response){
-   notifList = new Vue({
-   el: '#notificationsList',
-   data : response
-   })
+var notifData = [];
+for (var key in response) {
+   notifData.push(response[key]);
+}
+$(notificationsGrid).DataTable( {
+   data: notifData,
+	"columns": [
+    { "data": "text",
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+            $(nTd).html("<a href='"+oData.link+"'>"+oData.text+"</a>");
+        }
+    }
+ ]
+} );
 }
 
 function requestDashboard() {
@@ -71,8 +78,6 @@ function startIt() {
       requestNotifications();
    }
 }
-
 </script>
-
 </body>
 </html>
