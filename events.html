@@ -24,13 +24,17 @@ function getAccessToken( ) {
 }
 
 function eventsCallback(response){
+var events = [];
+response.data.events.forEach(function(item) {
+   var event = { when : item.local_date + " " + item.local_time, name : item.name, link : item.link };
+   events.push(event);
+}
 $(eventsGrid).DataTable( {
   "paging":   false,
   "info":     false,
-  data: response.data.events,
+  data: events,
 	"columns": [
-    { "data": "local_date" },
-    { "data": "local_time" },
+    { "data": "when" },
     { "data": "name",
         "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
             $(nTd).html("<a href='"+oData.link+"'>"+oData.name+"</a>");
