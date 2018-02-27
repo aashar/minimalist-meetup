@@ -28,7 +28,7 @@ var events = [];
 response.data.events.forEach(function(item) {
    var event = { when : item.local_date + " " + item.local_time, name : item.name, link : item.link };
    events.push(event);
-}
+} )
 $(eventsGrid).DataTable( {
   "paging":   false,
   "info":     false,
