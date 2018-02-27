@@ -57,7 +57,8 @@ function notificationsCallback(response){
 		 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
 		    $(nTd).html(oData.updated);
 		 },
-	      "data": "text",
+	    },
+	    { "data": "text",
 		 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
 		    $(nTd).html("<a href='"+oData.link+"'>"+oData.text+"</a>");
 		 }
