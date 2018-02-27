@@ -15,7 +15,7 @@
 <p><div id="content">
 <div id="summary" style="background:#f8f8f8;border-radius:0px 20px 20px 0px; padding:10px;line-height:1.5"></div><br/>
 <div id="notificationsList" style="background:#f8f8f8;border-radius:0px 20px 20px 0px; padding:10px;line-height:1.5">
-<table id="notificationsGrid" class="display" cellspacing="0" width="100%">
+    <table id="notificationsGrid" class="display" cellspacing="0" width="100%"></table>
 </div>
 </div></p>
 <script type="text/javascript">
@@ -53,10 +53,14 @@ function notificationsCallback(response){
       "info":     false,
       data: notifData,
 	 "columns": [
-	    { "data": "text",
-	      "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-		 $(nTd).html("<a href='"+oData.link+"'>"+oData.text+"</a>");
-	      }
+	    { "data" : "when",
+		 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+		    $(nTd).html(oData.updated);
+		 },
+	      "data": "text",
+		 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+		    $(nTd).html("<a href='"+oData.link+"'>"+oData.text+"</a>");
+		 }
 	    }
 	 ]
    } );
