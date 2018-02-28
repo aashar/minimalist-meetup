@@ -55,7 +55,7 @@ function notificationsCallback(response){
 	 "columns": [
 	    { "data" : "updated",
 		 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-		    var dt = new Date(dData.updated);
+		    var dt = new Date(oData.updated);
 		    $(nTd).html(dt.toLocaleDateString() + " " + dt.toLocaleTimeString());
 		 },
 	    },
