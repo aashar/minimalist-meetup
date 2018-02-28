@@ -53,9 +53,10 @@ function notificationsCallback(response){
       "info":     false,
       data: notifData,
 	 "columns": [
-	    { "data" : "when",
+	    { "data" : "updated",
 		 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-		    $(nTd).html(oData.updated);
+		    var dt = new Date(dData.updated);
+		    $(nTd).html(dt.toLocaleDateString() + " " + dt.toLocaleTimeString());
 		 },
 	    },
 	    { "data": "text",
