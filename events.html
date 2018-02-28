@@ -27,7 +27,7 @@ function eventsCallback(response){
 var daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 var events = [];
 response.data.events.forEach(function(item) {
-   var event = { when : item.local_date + " " + item.local_time + " (" + daysOfWeek[new Date(item.updated).getDay()] + ")", name : item.name, link : item.link };
+   var event = { when : item.local_date + " " + item.local_time + " (" + daysOfWeek[new Date(item.time).getDay()] + ")", name : item.name, link : item.link };
    events.push(event);
 } )
 $(eventsGrid).DataTable( {
