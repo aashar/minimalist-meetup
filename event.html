@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Minimalist Meetup - Event</title>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>  
+</head>
+<body onload="startIt()">
+<p id="name" style="font-family:impact; color:gray"></p>
+<p><div id="content">
+<div id="eventDetails" style="background:#f8f8f8;border-radius:0px 20px 20px 0px; padding:10px;line-height:1.5">
+<table>
+<tr><th>Group:</th><td><label id="groupName"></label></td></tr>
+<tr><th>When:</th><td><label id="time"></label></td></tr>
+<tr><th>RSVP:</th><td><label id="rsvp"></label></td></tr>
+<tr><th>Status:</th><td><label id="status"></label></td></tr>
+<tr><th>Venue:</th><td><label id="venue"></label></td></tr>
+</table>
+<div id="rsvpDiv" style="background:#f8f8f8;border-radius:0px 20px 20px 0px; padding:10px;line-height:1.5">
+    <table id="yesRsvpsGrid" class="display" cellspacing="0" width="100%"></table>
+    <table id="noRsvpsGrid" class="display" cellspacing="0" width="100%"></table>
+    <table id="waitListRsvpsGrid" class="display" cellspacing="0" width="100%"></table>
+</div>
+</div></p>
+<script type="text/javascript">
+var notifList;
+
+function getParam(param) {
+   var res1 = window.location.href.replace("#","?");
+   return new URL(res1).searchParams.get(param);
+}
+
+function eventCallback(response){
+  document.getElementById("name").innerHTML = response.name;
+  document.getElementById("groupName").innerHTML = response.group.name;
+  document.getElementById("time").innerHTML = response.time;
+  document.getElementById("rsvp").innerHTML = response.yes_rsvp_count + " of " + response.rsvp_limit + ", " + 
+    response.waitlist_count + " on waitlist";
+  document.getElementById("status").innerHTML = response.status;
+  document.getElementById("venue").innerHTML = response.venue.name + ", " + response.venue.address_1 + ", " +
+    response.venue.city + " " + response.venue.state + " " + response.venue.zip;
+}
+
+function requestEvent() {
+    var URL = "https://api.meetup.com/" + getParam("urlname") + "/events/" + getParam("eventId") + "?access_token=" + getParam('access_token');
+    $.ajax({ url: URL, dataType: "jsonp", jsonpCallback: "eventCallback" });
+}
+
+function startIt() {
+   if (getParam('access_token') == null) {
+      var authUrl = "https://secure.meetup.com/oauth2/authorize?client_id=utrb5b1laqujntlbvvs4rg6p7h&response_type=token&redirect_uri=https://rawgit.com/aashar/minimalist-meetup/master/index.html";
+      window.location.href = authUrl;
+   }
+   else {
+      requestEvent();
+   }
+}
+</script>
+</body>
+</html>
