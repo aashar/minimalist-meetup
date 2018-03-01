@@ -18,17 +18,18 @@
 </table>
 </div>
 <script type="text/javascript">
-function getAccessToken( ) {
+function getParam(param) {
    var res1 = window.location.href.replace("#","?");
-   return new URL(res1).searchParams.get('access_token');
+   return new URL(res1).searchParams.get(param);
 }
 
 function eventsCallback(response){
 var daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 var events = [];
 response.data.events.forEach(function(item) {
-   var event = { when : item.local_date + " " + item.local_time + " (" + daysOfWeek[new Date(item.time).getDay()] + ")", name : item.name, link : item.link };
-   events.push(event);
+   var event = { when : item.local_date + " " + item.local_time + " (" + daysOfWeek[new Date(item.time).getDay()] + ")",
+		 name : item.name, id : item.id, urlname = item.urlname };
+	events.push(event);
 } )
 $(eventsGrid).DataTable( {
   "paging":   false,
@@ -38,20 +39,20 @@ $(eventsGrid).DataTable( {
     { "data": "when" },
     { "data": "name",
         "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-            $(nTd).html("<a href='"+oData.link+"'>"+oData.name+"</a>");
-        }
+            $(nTd).html("<a href='event.html?urlname="+oData.urlname+"&eventId="+oData.id+"&access_token=" + getParam("access_token")'>"+oData.name+"</a>");
+	}
     }
   ]
 } );
 }
 
 function requestEvents() {
-    var URL = "https://api.meetup.com/find/upcoming_events?access_token=" + getAccessToken();
+    var URL = "https://api.meetup.com/find/upcoming_events?access_token=" + getParam('access_token');
     $.ajax({ url: URL, dataType: "jsonp", jsonpCallback: "eventsCallback" });
 }
 
 function startIt() {
-   if (getAccessToken() == null) {
+   if (getParam('access_token') == null) {
       var authUrl = "https://secure.meetup.com/oauth2/authorize?client_id=utrb5b1laqujntlbvvs4rg6p7h&response_type=token&redirect_uri=https://rawgit.com/aashar/minimalist-meetup/master/index.html";
       window.location.href = authUrl;
    }
