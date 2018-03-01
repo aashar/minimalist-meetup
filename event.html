@@ -78,7 +78,7 @@ function requestEvent() {
 
 function startIt() {
    if (getParam('access_token') == null) {
-      var authUrl = "https://secure.meetup.com/oauth2/authorize?client_id=utrb5b1laqujntlbvvs4rg6p7h&response_type=token&redirect_uri=https://rawgit.com/aashar/minimalist-meetup/master/index.html";
+      var authUrl = "https://secure.meetup.com/oauth2/authorize?client_id=utrb5b1laqujntlbvvs4rg6p7h&response_type=token&redirect_uri=https://rawgit.com/aashar/minimalist-meetup/master/event.html";
       window.location.href = authUrl;
    }
    else {
