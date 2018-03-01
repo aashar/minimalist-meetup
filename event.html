@@ -20,6 +20,7 @@
 <tr><th>RSVP:</th><td><label id="rsvp"></label></td></tr>
 <tr><th>Status:</th><td><label id="status"></label></td></tr>
 <tr><th>Venue:</th><td><label id="venue"></label></td></tr>
+<tr><th>Description:</th><td><label id="description"></label></td></tr>
 </table>
 <div id="rsvpDiv" style="background:#f8f8f8;border-radius:0px 20px 20px 0px; padding:10px;line-height:1.5">
     <table id="rsvpGrid" class="display" cellspacing="0" width="100%"></table>
@@ -62,6 +63,7 @@ function eventCallback(response){
   	"<A HREF='https://www.google.com/maps/search/?api=1&query=" + response.data.venue.lat + "," + response.data.venue.lon + "'>" +
     response.data.venue.name + ", " + response.data.venue.address_1 + ", " + response.data.venue.city + ", " +
     response.data.venue.state  + " " + response.data.venue.zip + "</A>"
+  document.getElementById("description").innerHTML = response.data.description;
 }
 
 function requestRsvp() {
