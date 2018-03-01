@@ -38,7 +38,10 @@ function getParam(param) {
 function eventCallback(response){
   document.getElementById("name").innerHTML = response.data.name;
   document.getElementById("groupName").innerHTML = response.data.group.name;
-  document.getElementById("time").innerHTML = response.data.time;
+
+  var venueTime = new Date(response.data.time);
+  
+  document.getElementById("time").innerHTML = venueDate.toLocaleDateString() + " " + venueDate.toLocaleTimeString();
   document.getElementById("rsvp").innerHTML = response.data.yes_rsvp_count + " of " + response.data.rsvp_limit + ", " + 
     response.data.waitlist_count + " on waitlist";
   document.getElementById("status").innerHTML = response.data.status;
