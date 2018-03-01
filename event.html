@@ -22,9 +22,7 @@
 <tr><th>Venue:</th><td><label id="venue"></label></td></tr>
 </table>
 <div id="rsvpDiv" style="background:#f8f8f8;border-radius:0px 20px 20px 0px; padding:10px;line-height:1.5">
-    <table id="yesRsvpsGrid" class="display" cellspacing="0" width="100%"></table>
-    <table id="noRsvpsGrid" class="display" cellspacing="0" width="100%"></table>
-    <table id="waitListRsvpsGrid" class="display" cellspacing="0" width="100%"></table>
+    <table id="rsvpGrid" class="display" cellspacing="0" width="100%"></table>
 </div>
 </div></p>
 <script type="text/javascript">
@@ -33,6 +31,21 @@ var notifList;
 function getParam(param) {
    var res1 = window.location.href.replace("#","?");
    return new URL(res1).searchParams.get(param);
+}
+
+function rsvpCallback(response){
+   var rsvpData = [];
+   for (var key in response.data) {
+      rsvpData.push(response.data[key]);
+   }
+   $(rsvpGrid).DataTable( {
+      "paging":   false,
+      "info":     false,
+      data: rsvpData,
+	 "columns": [
+	    "data" : "member.name",
+	    "data" : "response" ]
+   } );
 }
 
 function eventCallback(response){
@@ -51,6 +64,11 @@ function eventCallback(response){
     response.data.venue.state  + " " + response.data.venue.zip + "</A>"
 }
 
+function requestRsvp() {
+    var URL = "https://api.meetup.com/" + getParam("urlname") + "/events/" + getParam("eventId") + "/rsvps?access_token=" + getParam('access_token');
+    $.ajax({ url: URL, dataType: "jsonp", jsonpCallback: "rsvpCallback" });
+}
+
 function requestEvent() {
     var URL = "https://api.meetup.com/" + getParam("urlname") + "/events/" + getParam("eventId") + "?access_token=" + getParam('access_token');
     $.ajax({ url: URL, dataType: "jsonp", jsonpCallback: "eventCallback" });
@@ -63,6 +81,7 @@ function startIt() {
    }
    else {
       requestEvent();
+      requestRsvp();
    }
 }
 </script>
