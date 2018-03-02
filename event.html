@@ -60,7 +60,7 @@ function eventCallback(response){
     response.data.waitlist_count + " on waitlist";
   document.getElementById("status").innerHTML = response.data.status;
 
-  if (if (typeof response.data.venue != 'undefined') {
+  if (typeof response.data.venue != 'undefined') {
     document.getElementById("venue").innerHTML = 
       "<A HREF='https://www.google.com/maps/search/?api=1&query=" + response.data.venue.lat + "," + response.data.venue.lon + "'>" +
       response.data.venue.name + ", " + response.data.venue.address_1 + ", " + response.data.venue.city + ", " +
