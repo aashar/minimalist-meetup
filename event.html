@@ -56,6 +56,13 @@ function commentsCallback(response){
       var cmt = response.data[key];
       commentsData.push({text:cmt.member.name + " at " + cmt.created.toLocaleDateString() + " " + cmt.created.toLocaleTimeString()});
       commentsData.push({text:cmt.comment});
+
+      if (typeof cmt.replies != 'undefined' && cmt.replies != null) {
+	cmt.replies.forEach (function(el) {
+	  commentsData.push({text:"   " + el.member.name + " at " + el.created.toLocaleDateString() + " " + el.created.toLocaleTimeString()});
+	  commentsData.push({text:"   " + cmt.comment});
+	})
+      }
    }
    $(commentsGrid).DataTable( {
       "paging":   false,
