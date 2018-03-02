@@ -13,7 +13,7 @@
 <body onload="startIt()">
 <p id="name" style="font-family:impact; color:gray"></p>
 <div float="clear:both">
-<div id="eventDetails" style="background:#f8f8f8;border-radius:20px 0px 0px 20px; padding:10px;line-height:1.5; width:800px; float:left">
+<div id="eventDetails" style="background:#f8f8f8; padding:10px;line-height:1.5; width:800px; float:left">
 <table>
 <tr style="vertical-align:top"><th style="horizontal-align:right">Group:</th><td><label id="groupName"></label></td></tr>
 <tr style="vertical-align:top"><th style="horizontal-align:right">When:</th><td><label id="time"></label></td></tr>
@@ -22,8 +22,9 @@
 <tr style="vertical-align:top"><th style="horizontal-align:right">Venue:</th><td><label id="venue"></label></td></tr>
 </table>
 <label style="font-weight: bold;">Description:</label><label id="description"></label>
+<table id="commentsGrid" class="display" cellspacing="0" width="100%"></table>
 </div>
-<div id="rsvpDiv" style="background:#f8f8f8;border-radius:0px 20px 20px 0px; padding:10px;line-height:1.5; width:310px; float:left">
+<div id="rsvpDiv" style="background:#f8f8f8; padding:10px;line-height:1.5; width:310px; float:left">
     <table id="rsvpGrid" class="display" cellspacing="0" width="100%"></table>
 </div></div>
 <script type="text/javascript">
@@ -46,6 +47,22 @@ function rsvpCallback(response){
 	 "columns": [
 	    { "data" : "member.name" },
 	    { "data" : "response" } ]
+   } );
+}
+
+function commentsCallback(response){
+   var commentsData = [];
+   for (var key in response.data) {
+      var cmt = response.data[key];
+      commentsData.push({text:cmt.member.name + " at " + created.toLocaleDateString() + " " + created.toLocaleTimeString()});
+      commentsData.push({text:cmt.comment});
+   }
+   $(commentsGrid).DataTable( {
+      "paging":   false,
+      "info":     false,
+      data: commentsData,
+	 "columns": [
+	    { "data" : "text" } ]
    } );
 }
 
@@ -80,6 +97,11 @@ function requestEvent() {
     $.ajax({ url: URL, dataType: "jsonp", jsonpCallback: "eventCallback" });
 }
 
+function requestComments() {
+    var URL = "https://api.meetup.com/" + getParam("urlname") + "/events/" + getParam("eventId") + "/comments?access_token=" + getParam('access_token');
+    $.ajax({ url: URL, dataType: "jsonp", jsonpCallback: "commentsCallback" });
+}
+
 function startIt() {
    if (getParam('access_token') == null) {
       var authUrl = "https://secure.meetup.com/oauth2/authorize?client_id=utrb5b1laqujntlbvvs4rg6p7h&response_type=token&redirect_uri=https://rawgit.com/aashar/minimalist-meetup/master/event.html";
@@ -88,6 +110,7 @@ function startIt() {
    else {
       requestEvent();
       requestRsvp();
+      requestComments();
    }
 }
 </script>
