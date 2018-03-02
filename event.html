@@ -59,10 +59,14 @@ function eventCallback(response){
   document.getElementById("rsvp").innerHTML = response.data.yes_rsvp_count + " of " + response.data.rsvp_limit + ", " + 
     response.data.waitlist_count + " on waitlist";
   document.getElementById("status").innerHTML = response.data.status;
-  document.getElementById("venue").innerHTML = 
-  	"<A HREF='https://www.google.com/maps/search/?api=1&query=" + response.data.venue.lat + "," + response.data.venue.lon + "'>" +
-    response.data.venue.name + ", " + response.data.venue.address_1 + ", " + response.data.venue.city + ", " +
-    response.data.venue.state  + " " + response.data.venue.zip + "</A>"
+
+  if (if (typeof response.data.venue != 'undefined') {
+    document.getElementById("venue").innerHTML = 
+      "<A HREF='https://www.google.com/maps/search/?api=1&query=" + response.data.venue.lat + "," + response.data.venue.lon + "'>" +
+      response.data.venue.name + ", " + response.data.venue.address_1 + ", " + response.data.venue.city + ", " +
+      response.data.venue.state  + " " + response.data.venue.zip + "</A>";
+  }
+
   document.getElementById("description").innerHTML = response.data.description;
 }
 
