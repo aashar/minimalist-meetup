@@ -28,18 +28,30 @@
     <table id="rsvpGrid" class="display" cellspacing="0" width="100%"></table>
 </div></div>
 <script type="text/javascript">
-var notifList;
+var rsvpData = [];
 
 function getParam(param) {
    var res1 = window.location.href.replace("#","?");
    return new URL(res1).searchParams.get(param);
 }
 
+function memberLocCallback(response) {
+   rsvpData.forEach(function(el) {
+      if(el.memberId === response.data.member.id) {
+	 el.location = response.data.city + ", " + response.data.state;
+	 break;
+      }
+   })
+}
+
 function rsvpCallback(response){
-   var rsvpData = [];
    for (var key in response.data) {
       var name = response.data[key].member.event_context.host === true ? "<b>" + response.data[key].member.name + "</b>" : response.data[key].member.name;
       rsvpData.push({"name": name, "localion": "n/a", "response" : response.data[key].response, "memberId": response.data[key].member.id});
+
+      var URL = "https://api.meetup.com/" + getParam("urlname") + "/members/" + response.data[key].member.id + "?access_token=" + getParam('access_token');
+      $.ajax({ url: URL, dataType: "jsonp", jsonpCallback: "memberLocCallback" });
+//https://api.meetup.com/Desi-Outdoors-Enrichment-and-Recreational-Activities/members/58338452
    }
    $(rsvpGrid).DataTable( {
       "paging":   false,
