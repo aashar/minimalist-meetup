@@ -38,7 +38,7 @@ function getParam(param) {
 function rsvpCallback(response){
    var rsvpData = [];
    for (var key in response.data) {
-      var name = response.data[key].member.event_context.host === true ? "<b>" + response.data[key].member + "</b>" : response.data[key].member;
+      var name = response.data[key].member.event_context.host === true ? "<b>" + response.data[key].member.name + "</b>" : response.data[key].member.name;
       rsvpData.push({"name": name, "response" : response.data[key].response});
    }
    $(rsvpGrid).DataTable( {
