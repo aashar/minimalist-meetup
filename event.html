@@ -47,23 +47,18 @@ function memberLocCallback(response) {
 function rsvpCallback(response){
    for (var key in response.data) {
       var name = response.data[key].member.event_context.host === true ? "<b>" + response.data[key].member.name + "</b>" : response.data[key].member.name;
-      rsvpData.push({"name": name, "localion": "n/a", "response" : response.data[key].response, "memberId": response.data[key].member.id});
+      rsvpData.push({"name": name, "localion": "n/a", "response" : response.data[key].response});
 
       var URL = "https://api.meetup.com/" + getParam("urlname") + "/members/" + response.data[key].member.id + "?access_token=" + getParam('access_token');
       $.ajax({ url: URL, dataType: "jsonp", jsonpCallback: "memberLocCallback" });
 //https://api.meetup.com/Desi-Outdoors-Enrichment-and-Recreational-Activities/members/58338452
    }
+
    $(rsvpGrid).DataTable( {
       "paging":   false,
       "ordering": false,
       "info":     false,
-      "columnDefs": [{ "targets": [ 3 ], "visible": false, "searchable": false }],
-      data: rsvpData,
-	 "columns": [
-	    { "data" : "name" },
-	    { "data" : "location" },
-	    { "data" : "response" },
-	    { "data" : "memberId" } ]
+      data: rsvpData
    } );
 }
 
@@ -138,8 +133,8 @@ function startIt() {
    }
    else {
       requestEvent();
-      requestRsvp();
       requestComments();
+      requestRsvp();
    }
 }
 </script>
