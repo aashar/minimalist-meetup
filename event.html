@@ -36,12 +36,12 @@ function getParam(param) {
 }
 
 function memberLocCallback(response) {
-   rsvpData.forEach(function(el) {
-      if(el.memberId === response.data.member.id) {
-	 el.location = response.data.city + ", " + response.data.state;
+   for (var i=0; i < rsvpData.length; i++) {
+      if(rsvpData[i].memberId === response.data.member.id) {
+	 rsvpData[i].location = response.data.city + ", " + response.data.state;
 	 break;
       }
-   })
+   }
 }
 
 function rsvpCallback(response){
