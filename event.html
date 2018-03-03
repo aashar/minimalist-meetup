@@ -11,7 +11,7 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>  
 </head>
 <body onload="startIt()">
-<b><a href="index.html">Home</a>&nbsp;&nbsp;<section id="name"></section></b><hr/>
+<b><a href="index.html">Home</a>&nbsp;&nbsp;<span id="name"></span></b><hr/>
 <div float="clear:both">
 <div id="eventDetails" style="background:#f8f8f8; padding:10px;line-height:1.5; width:650px; float:left">
 <table>
@@ -62,13 +62,14 @@ function commentsCallback(response){
       if (typeof cmt.replies != 'undefined' && cmt.replies != null) {
 	cmt.replies.forEach (function(el) {
 	  var crtDate2 = new Date(el.created);
-	  commentsData.push({text:"   <b>" + el.member.name + " at " + crtDate2.toLocaleDateString() + " " +
-	     crtDate2.toLocaleTimeString() + "</b><br/>" + el.comment});
+	  commentsData.push({text:"&nbsp;&nbsp;&nbsp;<b>" + el.member.name + " at " + crtDate2.toLocaleDateString() + " " +
+	     crtDate2.toLocaleTimeString() + "</b><br/>&nbsp;&nbsp;&nbsp;" + el.comment});
 	})
       }
    }
    $(commentsGrid).DataTable( {
       "paging":   false,
+      "ordering": false,
       "info":     false,
       data: commentsData,
 	 "columns": [
