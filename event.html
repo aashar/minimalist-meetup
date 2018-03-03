@@ -56,8 +56,10 @@ function commentsCallback(response){
    for (var key in response.data) {
       var cmt = response.data[key];
       var crtDate = new Date(cmt.created);
-      commentsData.push({text:"<b>" + cmt.member.name + " at " + crtDate.toLocaleDateString() + " " + crtDate.toLocaleTimeString() +
-	 "</b><br/>" + cmt.comment});
+      var commentString = "<b>" + cmt.member.name + " at " + crtDate.toLocaleDateString() + " " + crtDate.toLocaleTimeString() + "</b>";
+      if (cmt.like_count > 0) commentString = ", " + commentString + cmt.like_count + " likes";
+      commentString = commentString + "<br/>" + cmt.comment;
+      commentsData.push({text:commentString});
 
       if (typeof cmt.replies != 'undefined' && cmt.replies != null) {
 	cmt.replies.forEach (function(el) {
