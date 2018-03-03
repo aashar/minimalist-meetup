@@ -39,16 +39,19 @@ function rsvpCallback(response){
    var rsvpData = [];
    for (var key in response.data) {
       var name = response.data[key].member.event_context.host === true ? "<b>" + response.data[key].member.name + "</b>" : response.data[key].member.name;
-      rsvpData.push({"name": name, "response" : response.data[key].response});
+      rsvpData.push({"name": name, "localion": "", "response" : response.data[key].response, "memberId": response.data[key].member.id});
    }
    $(rsvpGrid).DataTable( {
       "paging":   false,
       "ordering": false,
       "info":     false,
+      "columnDefs": [{ "targets": [ 3 ], "visible": false, "searchable": false }],
       data: rsvpData,
 	 "columns": [
 	    { "data" : "name" },
-	    { "data" : "response" } ]
+	    { "data" : "location" },
+	    { "data" : "response" },
+	    { "data" : "memberId" } ]
    } );
 }
 
