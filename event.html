@@ -56,14 +56,14 @@ function commentsCallback(response){
    for (var key in response.data) {
       var cmt = response.data[key];
       var crtDate = new Date(cmt.created);
-      commentsData.push({text:cmt.member.name + " at " + crtDate.toLocaleDateString() + " " + crtDate.toLocaleTimeString()});
-      commentsData.push({text:cmt.comment});
+      commentsData.push({text:"<b>" + cmt.member.name + " at " + crtDate.toLocaleDateString() + " " + crtDate.toLocaleTimeString() +
+	 "</b><br/>" + text:cmt.comment});
 
       if (typeof cmt.replies != 'undefined' && cmt.replies != null) {
 	cmt.replies.forEach (function(el) {
 	  var crtDate2 = new Date(el.created);
-	  commentsData.push({text:"   " + el.member.name + " at " + crtDate2.toLocaleDateString() + " " + crtDate2.toLocaleTimeString()});
-	  commentsData.push({text:"   " + el.comment});
+	  commentsData.push({text:"   <b>" + el.member.name + " at " + crtDate2.toLocaleDateString() + " " +
+	     crtDate2.toLocaleTimeString() + "</b><br/>" + el.comment});
 	})
       }
    }
