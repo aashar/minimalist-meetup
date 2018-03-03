@@ -39,7 +39,7 @@ function rsvpCallback(response){
    var rsvpData = [];
    for (var key in response.data) {
       var name = response.data[key].member.event_context.host === true ? "<b>" + response.data[key].member.name + "</b>" : response.data[key].member.name;
-      rsvpData.push({"name": name, "localion": "", "response" : response.data[key].response, "memberId": response.data[key].member.id});
+      rsvpData.push({"name": name, "localion": "n/a", "response" : response.data[key].response, "memberId": response.data[key].member.id});
    }
    $(rsvpGrid).DataTable( {
       "paging":   false,
