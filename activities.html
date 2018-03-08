@@ -25,15 +25,16 @@ function eventsCallback(response){
 var activities = [];
 response.results.forEach(function(item) {
    var activity;
-   if (item.item_type === "new_rsvp")
+   if (item.item_type === "new_rsvp" || item.item_type === "edit_rsvp")
       activity = { published : item.published, title : item.title, member_name : item.member_name,
-		   text : "Event: " + item.event_name + " on " + item.event_date };
+		   text : item.rsvp_response + " response for event: " + item.event_name + " on " + item.event_date,
+		   link : item.link };
    else if (item.item_type === "new_member")
       activity = { published : item.published, title : item.title, member_name : item.member_name,
-		   text : "Bio: " + item.bio };
+		   text : "Bio: " + item.bio, link : item.link };
    else
       activity = { published : item.published, title : item.title, member_name : item.member_name,
-		   text : " " };
+		   text : " ", link : item.link };
 
    activities.push(activity);
 } )
@@ -45,7 +46,10 @@ $(eventsGrid).DataTable( {
     { "data": "published" },
     { "data": "title" },
     { "data": "member_name" },
-    { "data": "text" }
+    { "data": "text",
+        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+            $(nTd).html("<a href='"+oData.link+"&access_token=" + getParam("access_token") + "'>"+oData.text+"</a>");
+    }
   ]
 } );
 }
