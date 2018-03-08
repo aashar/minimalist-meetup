@@ -12,9 +12,8 @@
 </head>
 <body onload="startIt()">
 <b><a href="index.html">Home</a>&nbsp;&nbsp;Minimalist Meetup - Activity</b><hr/>
-<div id="eventsList" style="background:#f8f8f8;border-radius:0px 20px 20px 0px; padding:10px;line-height:1.5">
-<table id="eventsGrid" class="display" cellspacing="0" width="100%">
-</table>
+<div id="eventsList">
+<table id="eventsGrid" class="display" cellspacing="0" width="100%"></table>
 </div>
 <script type="text/javascript">
 function getParam(param) {
@@ -24,9 +23,9 @@ function getParam(param) {
 
 function eventsCallback(response){
 var activities = [];
-response.data.results.forEach(function(item) {
-  var activity = { published : item.published, item_type : item.item_type, member_name : item.member_name, group_name : item.group_name };
-	activities.push(activity);
+response.data.forEach(function(item) {
+   var activity = { published : item.published, title : item.title, member_name : item.member_name };
+   activities.push(activity);
 } )
 $(eventsGrid).DataTable( {
   "paging":   false,
@@ -34,10 +33,9 @@ $(eventsGrid).DataTable( {
   data: activities,
 	"columns": [
     { "data": "published" },
-    { "data": "item_type" },
+    { "data": "title" },
     { "data": "published" },
-    { "data": "member_name" },
-    { "data": "group_name" }
+    { "data": "member_name" }
   ]
 } );
 }
