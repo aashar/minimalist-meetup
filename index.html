@@ -15,7 +15,7 @@
 <p><div id="content">
 <div id="summary" style="background:#f8f8f8;border-radius:0px 20px 20px 0px; padding:10px;line-height:1.5"></div><br/>
 <div id="notificationsList" style="background:#f8f8f8;border-radius:0px 20px 20px 0px; padding:10px;line-height:1.5">
-    <table id="notificationsGrid" class="display" cellspacing="0" width="100%"></table>
+   <table id="notificationsGrid" class="display" cellspacing="0" width="100%"></table>
 </div>
 </div></p>
 <script type="text/javascript">
@@ -37,7 +37,8 @@ function dashboardCallback(response){
 		"<A HREF='https://www.google.com/maps/search/?api=1&query=" + response.next_event.venue.lat + "," +
 		response.next_event.venue.lon + "'>" + response.next_event.venue.city + ", " + response.next_event.venue.state +
 	  	"</A> on " + new Date(response.next_event.time).toDateString() +
-	"<BR/><A HREF='events.html#access_token=" + getAccessToken() + "'>upcoming events...</A>";
+	"<BR/><A HREF='events.html#access_token=" + getAccessToken() + "'>Upcoming events,</A>&nbsp;&nbsp;&nbsp;" +
+	"<A HREF='activities.html#access_token=" + getAccessToken() + "'>Activity...</A>";
   document.getElementById("summary").appendChild(para);
 }
 
