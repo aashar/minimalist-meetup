@@ -21,7 +21,7 @@ function getParam(param) {
    return new URL(res1).searchParams.get(param);
 }
 
-function eventsCallback(response){
+function activityCallback(response){
 var activities = [];
 response.results.forEach(function(item) {
    var activity;
@@ -57,7 +57,7 @@ $(eventsGrid).DataTable( {
 
 function requestEvents() {
     var URL = "https://api.meetup.com/activity?access_token=" + getParam('access_token');
-    $.ajax({ url: URL, dataType: "jsonp", jsonpCallback: "eventsCallback" });
+    $.ajax({ url: URL, dataType: "jsonp", jsonpCallback: "activityCallback" });
 }
 
 function startIt() {
