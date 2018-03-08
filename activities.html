@@ -24,7 +24,17 @@ function getParam(param) {
 function eventsCallback(response){
 var activities = [];
 response.results.forEach(function(item) {
-   var activity = { published : item.published, title : item.title, member_name : item.member_name };
+   var activity;
+   if (item.item_type === "new_rsvp")
+      activity = { published : item.published, title : item.title, member_name : item.member_name,
+		   text : "Event: " + item.event_name + " on " + item.event_date };
+   else if (item.item_type === "new_member")
+      activity = { published : item.published, title : item.title, member_name : item.member_name,
+		   text : "Bio: " + item.bio };
+   else
+      activity = { published : item.published, title : item.title, member_name : item.member_name,
+		   text : " " };
+
    activities.push(activity);
 } )
 $(eventsGrid).DataTable( {
@@ -34,8 +44,8 @@ $(eventsGrid).DataTable( {
 	"columns": [
     { "data": "published" },
     { "data": "title" },
-    { "data": "published" },
-    { "data": "member_name" }
+    { "data": "member_name" },
+    { "data": "text" }
   ]
 } );
 }
