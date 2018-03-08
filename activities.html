@@ -23,7 +23,7 @@ function getParam(param) {
 
 function eventsCallback(response){
 var activities = [];
-response.data.forEach(function(item) {
+response.results.forEach(function(item) {
    var activity = { published : item.published, title : item.title, member_name : item.member_name };
    activities.push(activity);
 } )
