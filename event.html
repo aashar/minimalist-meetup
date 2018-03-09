@@ -36,13 +36,18 @@ function getParam(param) {
 }
 
 function memberLocCallback(response) {
-   for (var i=0; i < rsvpData.length; i++) {
-      if(rsvpData[i].memberId === response.data.id) {
-	 rsvpData[i].location = response.data.city + ", " + response.data.state;
-	 break;
+   try {
+      for (var i=0; i < rsvpData.length; i++) {
+	 if(rsvpData[i].memberId === response.data.id) {
+	    rsvpData[i].location = response.data.city + ", " + response.data.state;
+	    break;
+	 }
       }
+      $('#rsvpGrid').DataTable().ajax.reload();
    }
-   $('#rsvpGrid').DataTable().ajax.reload();
+   catch(err) {
+      console.log(err.message);
+   }
 }
 
 function rsvpCallback(response){
