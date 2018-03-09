@@ -36,6 +36,7 @@ function getParam(param) {
 }
 
 function memberLocCallback(response) {
+	console.log(JSON.stringify(response));
    try {
       for (var i=0; i < rsvpData.length; i++) {
 	 if(rsvpData[i].memberId === response.data.id) {
