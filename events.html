@@ -40,7 +40,7 @@ $(eventsGrid).DataTable( {
     { "data": "name",
         "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
             $(nTd).html("<a href='event.html?urlname="+oData.urlname+"&eventId="+oData.id+"&access_token=" + getParam("access_token") +
-			"'>"+oData.name+"</a>");
+			"'>"+oData.name+" with "+oData.urlname+"</a>");
 	}
     }
   ]
