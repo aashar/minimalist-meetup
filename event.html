@@ -42,7 +42,7 @@ function memberLocCallback(response) {
 	 break;
       }
    }
-   $(rsvpGrid).ajax.reload();
+   $('#rsvpGrid').DataTable().ajax.reload();
 }
 
 function rsvpCallback(response){
