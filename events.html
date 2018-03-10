@@ -32,7 +32,7 @@ var events = [];
 $(eventsGrid).DataTable( {
   "paging":   false,
   "info":     false,
-  "data": "response.data.events",
+  "data": response.data.events,
   "columns": [
     { "data": "time",
 	"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
