@@ -7,11 +7,12 @@
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css"></link>
+<link rel="stylesheet" type="text/css" href="defstyle.css"></link>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
 </head>
 <body onload="startIt()">
-<b><a style="background-color: #f44336;border-radius: 5px; padding:5px;text-decoration: none; color:white; " href="index.html">Minimalist Meetup</a>&nbsp;&nbsp;Activity</b><hr/>
+<b><a class="topButton" href="index.html">Minimalist Meetup</a>&nbsp;&nbsp;Activity</b><hr/>
 <div id="eventsList">
 <table id="eventsGrid" class="display" cellspacing="0" width="100%"></table>
 </div>
@@ -21,49 +22,37 @@ function getParam(param) {
    return new URL(res1).searchParams.get(param);
 }
 
-function activityCallback(response){
-var activities = [];
-response.results.forEach(function(item) {
-   var activity;
-   if (item.item_type === "new_rsvp" || item.item_type === "edit_rsvp")
-      activity = { item_type : item.item_type, published : item.published, group_name : item.group_name, member_name : item.member_name,
-		   text : item.rsvp_response + " response for event: " + item.event_name + " on " + item.event_date, link : item.link };
-   else if (item.item_type === "new_member")
-      activity = { item_type : item.item_type, published : item.published, group_name : item.group_name, member_name : item.member_name,
-		   text : "Bio: " + item.bio, link : item.link };
-   else if (item.item_type === "photo_comment")
-      activity = { item_type : item.item_type, published : item.published, group_name : item.group_name, member_name : item.member_name,
-		   text : item.comment + " in " + item.album_name, link : item.link };
-   else if (item.item_type === "photo_upload" || item.item_type === "photo_upload_multi")
-      activity = { item_type : item.item_type, published : item.published, group_name : item.group_name, member_name : item.member_name,
-		   text : "In " + item.album_name, link : item.link };
-   else
-      activity = { item_type : item.item_type, published : item.published, group_name : item.group_name, member_name : item.member_name,
-		   text : " ", link : item.link };
+function populateActivity(){
+  var URL = "https://api.meetup.com/activity?access_token=" + getParam('access_token');
 
-   activities.push(activity);
-} )
-$(eventsGrid).DataTable( {
-  "paging":   false,
-  "info":     false,
-  data: activities,
-	"columns": [
-    { "data": "published" },
-    { "data": "item_type" },
-    { "data": "group_name" },
-    { "data": "member_name" },
-    { "data": "text",
-       "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-	  $(nTd).html("<a href='"+oData.link+"'>"+oData.text+"</a>");
-       }
-    }
-  ]
-} );
-}
+  $(eventsGrid).DataTable( {
+    "paging":   false,
+    "info":     false,
+    "ajax": { "url" : URL, "dataSrc": "results" },
+    "columns": [
+	{ "data": "published" },
+	{ "data": "item_type" },
+	{ "data": "group_name" },
+	{ "data": "member_name" },
+	{ "data": "link",
+	   "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+		var linkText;
+		if (oData.item_type === "new_rsvp" || oData.item_type === "edit_rsvp")
+		   linkText = oData.rsvp_response + " response for event: " + oData.event_name + " on " + oData.event_date;
+		else if (oData.item_type === "new_member")
+		   linkText = "Bio: " + oData.bio;
+		else if (oData.item_type === "photo_comment")
+		   linkText = oData.comment + " in " + oData.album_name;
+		else if (oData.item_type === "photo_upload" || oData.item_type === "photo_upload_multi")
+		   linkText = "In " + oData.album_name;
+		else
+		   linkText = oData.link;
 
-function requestEvents() {
-    var URL = "https://api.meetup.com/activity?access_token=" + getParam('access_token');
-    $.ajax({ url: URL, dataType: "jsonp", jsonpCallback: "activityCallback" });
+		$(nTd).html("<a href='"+oData.link+"'>"+linkText+"</a>");
+	   }
+	}
+     ]
+   } );
 }
 
 function startIt() {
@@ -72,7 +61,7 @@ function startIt() {
       window.location.href = authUrl;
    }
    else {
-      requestEvents();
+      populateActivity();
    }
 }
 </script>
