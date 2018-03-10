@@ -26,9 +26,9 @@ function getParam(param) {
 
 function eventsCallback(response){
 var daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
 var events = [];
 
+	console.log(response.data.events);
 $(eventsGrid).DataTable( {
   "paging":   false,
   "info":     false,
