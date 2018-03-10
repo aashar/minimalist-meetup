@@ -1,0 +1,11 @@
+.topButton {
+   background-color: #f44336; border-radius: 5px; padding:5px;text-decoration: none; color:white;
+}
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #f44336;
+    margin: 1em 0;
+    padding: 0; 
+}
