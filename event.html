@@ -7,13 +7,14 @@
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css"></link>
+<link rel="stylesheet" type="text/css" href="defstyle.css"></link>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>  
 </head>
 <body onload="startIt()">
-<b><a href="index.html">Home</a>&nbsp;&nbsp;<span id="name"></span></b><hr/>
+<b><a class="topButton" href="index.html">Minimalist Meetup</a>&nbsp;&nbsp;<span id="name"></span></b><hr/>
 <div float="clear:both">
-<div id="eventDetails" style="background:#f8f8f8; padding:10px;line-height:1.5; width:650px; float:left">
+<div id="eventDetails" style="padding:10px;line-height:1.5; width:650px; float:left">
 <table>
 <tr style="vertical-align:top"><th style="horizontal-align:right">Group:</th><td><label id="groupName"></label></td></tr>
 <tr style="vertical-align:top"><th style="horizontal-align:right">When:</th><td><label id="time"></label></td></tr>
@@ -24,10 +25,11 @@
 <label style="font-weight: bold;">Description:</label><label id="description"></label>
 <table id="commentsGrid" class="display" cellspacing="0" width="100%"></table>
 </div>
-<div id="rsvpDiv" style="background:#f8f8f8; padding:10px;line-height:1.5; width:310px; float:left">
+<div id="rsvpDiv" style="padding:10px;line-height:1.5; width:310px; float:left">
     <table id="rsvpGrid" class="display" cellspacing="0" width="100%"></table>
 </div></div>
 <script type="text/javascript">
+var rsvpTable;
 var rsvpData = [];
 
 function getParam(param) {
@@ -36,16 +38,13 @@ function getParam(param) {
 }
 
 function memberLocCallback(response) {
-   console.log(JSON.stringify(response));
    try {
-      for (var i=0; i < rsvpData.length; i++) {
-	 if(rsvpData[i].memberId === response.data.id) {
-	    rsvpData[i].location = response.data.city + ", " + response.data.state;
-	    break;
-	 }
-      }
-
-      $('#rsvpGrid').DataTable().draw();
+      rsvpTable.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+	if(this.data().memberId === response.data.id) {
+	   this.data().location = response.data.city + ", " + response.data.state;
+	   this.invalidate().draw();
+	}
+      } );
    }
    catch(err) {
       console.log(err.message);
@@ -59,7 +58,6 @@ function rsvpCallback(response){
 
       var URL = "https://api.meetup.com/" + getParam("urlname") + "/members/" + response.data[key].member.id + "?access_token=" + getParam('access_token');
       $.ajax({ url: URL, dataType: "jsonp", jsonpCallback: "memberLocCallback" });
-//https://api.meetup.com/Desi-Outdoors-Enrichment-and-Recreational-Activities/members/58338452
    }
 
    $(rsvpGrid).DataTable( {
