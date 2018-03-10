@@ -36,7 +36,7 @@ function getParam(param) {
 }
 
 function memberLocCallback(response) {
-	console.log(JSON.stringify(response));
+   console.log(JSON.stringify(response));
    try {
       for (var i=0; i < rsvpData.length; i++) {
 	 if(rsvpData[i].memberId === response.data.id) {
@@ -44,7 +44,8 @@ function memberLocCallback(response) {
 	    break;
 	 }
       }
-      $('#rsvpGrid').DataTable().ajax.reload();
+
+      $('#rsvpGrid').DataTable().draw();
    }
    catch(err) {
       console.log(err.message);
