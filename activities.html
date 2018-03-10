@@ -32,6 +32,12 @@ response.results.forEach(function(item) {
    else if (item.item_type === "new_member")
       activity = { published : item.published, title : item.title, member_name : item.member_name,
 		   text : "Bio: " + item.bio, link : item.link };
+   else if (item.item_type === "photo_comment")
+      activity = { published : item.published, title : item.title, member_name : item.member_name,
+		   text : item.comment + " in " + item.album_name, link : item.link };
+   else if (item.item_type === "photo_upload")
+      activity = { published : item.published, title : item.title, member_name : item.member_name,
+		   text : "In " + item.album_name, link : item.link };
    else
       activity = { published : item.published, title : item.title, member_name : item.member_name,
 		   text : " ", link : item.link };
