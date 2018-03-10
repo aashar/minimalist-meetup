@@ -26,20 +26,19 @@ var activities = [];
 response.results.forEach(function(item) {
    var activity;
    if (item.item_type === "new_rsvp" || item.item_type === "edit_rsvp")
-      activity = { published : item.published, title : item.title, member_name : item.member_name,
-		   text : item.rsvp_response + " response for event: " + item.event_name + " on " + item.event_date,
-		   link : item.link };
+      activity = { item_type : item.item_type, published : item.published, group_name : item.group_name, member_name : item.member_name,
+		   text : item.rsvp_response + " response for event: " + item.event_name + " on " + item.event_date, link : item.link };
    else if (item.item_type === "new_member")
-      activity = { published : item.published, title : item.title, member_name : item.member_name,
+      activity = { item_type : item.item_type, published : item.published, group_name : item.group_name, member_name : item.member_name,
 		   text : "Bio: " + item.bio, link : item.link };
    else if (item.item_type === "photo_comment")
-      activity = { published : item.published, title : item.title, member_name : item.member_name,
+      activity = { item_type : item.item_type, published : item.published, group_name : item.group_name, member_name : item.member_name,
 		   text : item.comment + " in " + item.album_name, link : item.link };
-   else if (item.item_type === "photo_upload")
-      activity = { published : item.published, title : item.title, member_name : item.member_name,
+   else if (item.item_type === "photo_upload" || item.item_type === "photo_upload_multi")
+      activity = { item_type : item.item_type, published : item.published, group_name : item.group_name, member_name : item.member_name,
 		   text : "In " + item.album_name, link : item.link };
    else
-      activity = { published : item.published, title : item.title, member_name : item.member_name,
+      activity = { item_type : item.item_type, published : item.published, group_name : item.group_name, member_name : item.member_name,
 		   text : " ", link : item.link };
 
    activities.push(activity);
@@ -49,8 +48,9 @@ $(eventsGrid).DataTable( {
   "info":     false,
   data: activities,
 	"columns": [
+    { "data": "item_type" },
     { "data": "published" },
-    { "data": "title" },
+    { "data": "group_name" },
     { "data": "member_name" },
     { "data": "text",
        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
