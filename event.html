@@ -60,7 +60,7 @@ function rsvpCallback(response){
       $.ajax({ url: URL, dataType: "jsonp", jsonpCallback: "memberLocCallback" });
    }
 
-   $(rsvpGrid).DataTable( {
+   rsvpTable = $(rsvpGrid).DataTable( {
       "paging":   false,
       "ordering": false,
       "info":     false,
