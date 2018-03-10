@@ -97,6 +97,7 @@ function commentsCallback(response){
 }
 
 function eventCallback(response){
+	console.log(response);
   document.getElementById("name").innerHTML = "<A HREF='" + response.data.link + "'>" + response.data.name + "</A>";
   document.getElementById("groupName").innerHTML = response.data.group.name;
 
