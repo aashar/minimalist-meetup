@@ -22,13 +22,11 @@ function getParam(param) {
    return new URL(res1).searchParams.get(param);
 }
 
-function populateActivity(){
-  var URL = "https://api.meetup.com/activity?access_token=" + getParam('access_token');
-
+function activityCallback(response){
   $(eventsGrid).DataTable( {
     "paging":   false,
     "info":     false,
-    "ajax": { "url" : URL, "dataSrc": "results" },
+    "data": { response.results },
     "columns": [
 	{ "data": "published" },
 	{ "data": "item_type" },
@@ -55,13 +53,18 @@ function populateActivity(){
    } );
 }
 
+function requestEvents() {
+   var URL = "https://api.meetup.com/activity?access_token=" + getParam('access_token');
+   $.ajax({ url: URL, dataType: "jsonp", jsonpCallback: "activityCallback" });
+}
+
 function startIt() {
    if (getParam('access_token') == null) {
       var authUrl = "https://secure.meetup.com/oauth2/authorize?client_id=utrb5b1laqujntlbvvs4rg6p7h&response_type=token&redirect_uri=https://rawgit.com/aashar/minimalist-meetup/master/activities.html";
       window.location.href = authUrl;
    }
    else {
-      populateActivity();
+      requestActivity();
    }
 }
 </script>
