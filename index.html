@@ -29,8 +29,8 @@ function getAccessToken( ) {
 function dashboardCallback(response){
   var para = document.createElement("p");
   para.innerHTML = 
-	"<A HREF='events.html#access_token=" + getAccessToken() + "'>Upcoming events,</A>&nbsp;&nbsp;&nbsp;" +
-	"<A HREF='activities.html#access_token=" + getAccessToken() + "'>Activity</A><hr/>" +
+	"<A style='background-color: #f44336;border-radius: 5px; padding:5px;text-decoration: none; color:white; ' HREF='events.html'>Upcoming events</A>&nbsp;&nbsp;&nbsp;" +
+	"<A style='background-color: #f44336;border-radius: 5px; padding:5px;text-decoration: none; color:white; ' HREF='activities.html'>Activity</A><hr/>" +
 	"Prev:<A HREF='" + response.last_event.event_url + "'>" + response.last_event.name + "</A> at " +
 		"<A HREF='https://www.google.com/maps/search/?api=1&query=" + response.last_event.venue.lat + "," +
 		response.last_event.venue.lon + "'>" + response.last_event.venue.city + ", " +
