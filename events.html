@@ -27,35 +27,31 @@ function getParam(param) {
 function eventsCallback(response){
 var daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 var events = [];
-
-	console.log(response.data.events);
-$(eventsGrid).DataTable( {
-  "paging":   false,
-  "info":     false,
-  "data": response.data.events,
-  "columns": [
-    { "data": "time",
+  $(eventsGrid).DataTable( {
+    "paging":   false,
+    "info":     false,
+    "data": response.data.events,
+    "columns": [
+      { "data": "time",
 	"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
 	   var eventTm = new Date(oData.time);
 	   $(nTd).html(eventTm.toLocaleDateString() + ' ' + eventTm.toLocaleTimeString().replace(/:00 /, ' ') + " (" + daysOfWeek[eventTm.getDay()] + ")");
 	}
-    },
-    { "data": "group.urlname" },
-    { "data": "name",
+      },
+      { "data": "group.urlname" },
+      { "data": "name",
         "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
             $(nTd).html("<a href='event.html?urlname="+oData.urlname+"&eventId="+oData.id+"&access_token=" + getParam("access_token") +
-			"'>"+oData.name+"</a>");
-	}
-    },
-    { "data": "yes_rsvp_count",
+			"'>"+oData.name+"</a>"); }
+      },
+      { "data": "yes_rsvp_count",
 	"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
 	    var maxLimit = typeof oData.rsvp_limit === 'undefined' ? "" : " of " + oData.rsvp_limit + " max";
 	    var waitListed = oData.waitlist_count != 0 ? ", waitlisted " + oData.waitlist_count : "";
-	    $(nTd).html("Yes " + oData.yes_rsvp_count + maxLimit + waitListed);
-	}
-    }
-  ]
-} );
+	    $(nTd).html("Yes " + oData.yes_rsvp_count + maxLimit + waitListed); }
+      }
+    ]
+  } );
 }
 
 function requestEvents() {
