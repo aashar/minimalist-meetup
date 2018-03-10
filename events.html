@@ -7,14 +7,15 @@
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css"></link>
+<link rel="stylesheet" type="text/css" href="defstyle.css"></link>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
 </head>
 <body onload="startIt()">
-<b><a href="index.html">Home</a>&nbsp;&nbsp;Minimalist Meetup - Events</b><hr/>
+<b><a class="topButton" href="index.html">Minimalist Meetup</a>&nbsp;&nbsp;Events</b><hr/>
 <div id="eventsList">
 <table id="eventsGrid" class="display" cellspacing="0" width="100%">
-   <thead><tr><th>When</th><th>Event</th></tr></thead>
+   <thead><tr><th>When</th><th>Group</th><th>Event</th><th>RSVP</th></tr></thead>
 </table>
 </div>
 <script type="text/javascript">
@@ -23,33 +24,40 @@ function getParam(param) {
    return new URL(res1).searchParams.get(param);
 }
 
-function eventsCallback(response){
+function populateEvents(response){
+var URL = "https://api.meetup.com/find/upcoming_events?access_token=" + getParam('access_token');
 var daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-var events = [];
-response.data.events.forEach(function(item) {
-   var event = { when : item.local_date + " " + item.local_time + " (" + daysOfWeek[new Date(item.time).getDay()] + ")",
-		 name : item.name, id : item.id, urlname : item.group.urlname };
-	events.push(event);
-} )
+
 $(eventsGrid).DataTable( {
   "paging":   false,
   "info":     false,
-  data: events,
-	"columns": [
-    { "data": "when" },
+  "ajax": {
+    "url"    : URL,
+    "dataSrc": "events"
+  },
+  "columns": [
+    { "data": "time",
+	"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+	   var eventTm = new Date(oData.time);
+	   $(nTd).html(eventTm.toLocaleDateString() + ' ' + eventTm.toLocaleTimeString().replace(/:00 /, ' ') + " (" + daysOfWeek[eventTm.getDay()] + ")");
+	}
+    },
+    { "data": "group.urlname" },
     { "data": "name",
         "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
             $(nTd).html("<a href='event.html?urlname="+oData.urlname+"&eventId="+oData.id+"&access_token=" + getParam("access_token") +
-			"'>"+oData.name+" with "+oData.urlname+"</a>");
+			"'>"+oData.name+"</a>");
+	}
+    },
+    { "data": "yes_rsvp_count",
+	"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+	    var maxLimit = typeof oData.rsvp_limit === 'undefined' ? "" : " of " + oData.rsvp_limit + " max";
+	    var waitListed = oData.waitlist_count != 0 ? ", waitlisted " + oData.waitlist_count : "";
+	    $(nTd).html("Yes " + oData.yes_rsvp_count + maxLimit + waitListed);
 	}
     }
   ]
 } );
-}
-
-function requestEvents() {
-    var URL = "https://api.meetup.com/find/upcoming_events?access_token=" + getParam('access_token');
-    $.ajax({ url: URL, dataType: "jsonp", jsonpCallback: "eventsCallback" });
 }
 
 function startIt() {
@@ -58,7 +66,7 @@ function startIt() {
       window.location.href = authUrl;
    }
    else {
-      requestEvents();
+      populateEvents();
    }
 }
 </script>
