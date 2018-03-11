@@ -70,26 +70,18 @@ function dashboardCallback(response){
 }
 
 function notificationsCallback(response){
-   if (typeof response.code != undefined) {
-      console.log(response);
-      return;
-   } else if (typeof response.data.errors != undefined) {
-      console.log(response);
-      return;
-   }
-
    var notifData = [];
    for (var key in response.data) {
       notifData.push(response.data[key]);
    }
 
-   if (notifData.length > 0) {
-   $(notificationsGrid).DataTable( {
-      "paging":   false,
-      "ordering": false,
-      "info":     false,
-      data: notifData,
-	 "columns": [
+   if (notifData.length > 0 && typeof notifData[0].updated != undefined) {
+      $(notificationsGrid).DataTable( {
+	 "paging":   false,
+	 "ordering": false,
+	 "info":     false,
+	 data: notifData,
+	    "columns": [
 	    { "data" : "updated",
 		 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
 		    var dt = new Date(oData.updated);
@@ -101,8 +93,8 @@ function notificationsCallback(response){
 		    $(nTd).html("<a href='"+oData.link+"'>"+oData.text+"</a>");
 		 }
 	    }
-	 ]
-   } );
+	    ]
+      } );
    }
 }
 
