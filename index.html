@@ -34,9 +34,7 @@ function getUrlParm(parm) {
 }
 
 function dashboardCallback(response){
-   if (typeof response.code != undefined || typeof response.data.errors != undefined) {
-      console.log(response);
-   } else {
+   if (getUrlParm('access_token') != null) {
       var para = document.createElement("p");
       var paraString = "<A class='topButton' HREF='events.html?access_token=" + getUrlParm('access_token') + "'>Upcoming events</A>&nbsp;&nbsp;&nbsp;" +
 		       "<A class='topButton' HREF='activities.html?access_token=" + getUrlParm('access_token') + "'>Activity</A><hr/>";
