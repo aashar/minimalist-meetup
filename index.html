@@ -34,6 +34,10 @@ function getUrlParm(parm) {
 }
 
 function dashboardCallback(response){
+  if (typeof response.data.errors != undefined) {
+     console.log(response);
+     return;
+  }
   var para = document.createElement("p");
   var paraString = "<A class='topButton' HREF='events.html?access_token=" + getUrlParm('access_token') + "'>Upcoming events</A>&nbsp;&nbsp;&nbsp;" +
 		   "<A class='topButton' HREF='activities.html?access_token=" + getUrlParm('access_token') + "'>Activity</A><hr/>";
@@ -63,6 +67,11 @@ function dashboardCallback(response){
 }
 
 function notificationsCallback(response){
+   if (typeof response.data.errors != undefined) {
+      console.log(response);
+      return;
+   }
+
    var notifData = [];
    for (var key in response.data) {
       notifData.push(response.data[key]);
