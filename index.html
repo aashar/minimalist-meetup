@@ -34,7 +34,10 @@ function getUrlParm(parm) {
 }
 
 function dashboardCallback(response){
-  if (typeof response.data.errors != undefined) {
+  if (typeof response.code != undefined) {
+     console.log(response);
+     return;
+  } else if (typeof response.data.errors != undefined) {
      console.log(response);
      return;
   }
@@ -67,7 +70,10 @@ function dashboardCallback(response){
 }
 
 function notificationsCallback(response){
-   if (typeof response.data.errors != undefined) {
+   if (typeof response.code != undefined) {
+      console.log(response);
+      return;
+   } else if (typeof response.data.errors != undefined) {
       console.log(response);
       return;
    }
