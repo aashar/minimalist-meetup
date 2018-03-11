@@ -40,6 +40,7 @@ function getParam(param) {
 function rsvpCallback(response){
    for (var key in response.data) {
       var name = response.data[key].member.event_context.host === true ? "<b>" + response.data[key].member.name + "</b>" : response.data[key].member.name;
+      if (response.data[key].response === "no") name="<i>"+name+"</i>";
       rsvpData.push({"memberId" : response.data[key].member.id, "name": name, "location": "n/a", "response" : response.data[key].response});
    }
 
