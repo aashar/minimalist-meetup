@@ -24,9 +24,13 @@
 <script type="text/javascript">
 var notifList;
 
-function getAccessToken( ) {
-   var res1 = window.location.href.replace("#","?");
-   return new URL(res1).searchParams.get('access_token');
+function getUrlParm(parm) {
+   var res1 = new URL(window.location.href.replace("#","?"));
+   if (res1.searchParams == null) {
+      return null;
+   } else {
+      return res1.searchParams.get(parm);
+   }
 }
 
 function dashboardCallback(response){
@@ -89,7 +93,7 @@ function requestNotifications() {
 }
 
 function startIt() {
-   if (getAccessToken() == null) {
+   if (getUrlParm('access_token') == null) {
       var authUrl = "https://secure.meetup.com/oauth2/authorize?client_id=utrb5b1laqujntlbvvs4rg6p7h&response_type=token&redirect_uri=https://rawgit.com/aashar/minimalist-meetup/master/index.html";
       window.location.href = authUrl;
    } else {
