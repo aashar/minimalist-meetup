@@ -35,23 +35,30 @@ function getUrlParm(parm) {
 
 function dashboardCallback(response){
   var para = document.createElement("p");
-	
-  var maxLimit = typeof response.next_event.rsvp_limit === 'undefined' ? "" : " of " + 	response.next_event.rsvp_limit + " max";
-  var waitListed = response.next_event.waitlist_count != 0 ? ", waitlisted " + response.next_event.waitlist_count : "";
+  var paraString = "<A class='topButton' HREF='events.html?access_token=" + getUrlParm('access_token') + "'>Upcoming events</A>&nbsp;&nbsp;&nbsp;" +
+		   "<A class='topButton' HREF='activities.html?access_token=" + getUrlParm('access_token') + "'>Activity</A><hr/>";
 
-  para.innerHTML = 
-    "<A class='topButton' HREF='events.html?access_token=" + getUrlParm('access_token') + "'>Upcoming events</A>&nbsp;&nbsp;&nbsp;" +
-    "<A class='topButton' HREF='activities.html?access_token=" + getUrlParm('access_token') + "'>Activity</A><hr/>" +
+  if (typeof response.last_event != undefined) {
+     paraString = paraString +
        "Prev event - <A HREF='" + response.last_event.event_url + "'>" + response.last_event.name + "</A> with " + response.last_event.group.name +
 	" at " + "<A HREF='https://www.google.com/maps/search/?api=1&query=" + response.last_event.venue.lat + "," +
 	response.last_event.venue.lon + "'>" + response.last_event.venue.city + ", " +
 	response.last_event.venue.state + "</A> on " + new Date(response.last_event.time).toDateString() + "<BR/>" +
-    "Next event - <A HREF='" + response.next_event.event_url + "'>" + response.next_event.name + "</A>  with " + response.next_event.group.name +
+  }
+
+  if (typeof response.next_event != undefined) {
+     var maxLimit = typeof response.next_event.rsvp_limit === 'undefined' ? "" : " of " + 	response.next_event.rsvp_limit + " max";
+     var waitListed = response.next_event.waitlist_count != 0 ? ", waitlisted " + response.next_event.waitlist_count : "";
+
+     paraString = paraString +
+        "Next event - <A HREF='" + response.next_event.event_url + "'>" + response.next_event.name + "</A>  with " + response.next_event.group.name +
 	" at " + "<A HREF='https://www.google.com/maps/search/?api=1&query=" + response.next_event.venue.lat + "," +
 	response.next_event.venue.lon + "'>" + response.next_event.venue.city + ", " + response.next_event.venue.state +
 	"</A> on " + new Date(response.next_event.time).toDateString() +
 	", RSVP yes " + response.next_event.yes_rsvp_count + maxLimit + waitListed;
+  }
 
+  para.innerHTML = paraString;
   document.getElementById("summary").appendChild(para);
 }
 
@@ -61,6 +68,7 @@ function notificationsCallback(response){
       notifData.push(response.data[key]);
    }
 
+   if (notifData.length > 0) {
    $(notificationsGrid).DataTable( {
       "paging":   false,
       "ordering": false,
@@ -80,6 +88,7 @@ function notificationsCallback(response){
 	    }
 	 ]
    } );
+   }
 }
 
 function requestDashboard() {
