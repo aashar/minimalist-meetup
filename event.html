@@ -38,26 +38,12 @@ function getParam(param) {
 }
 
 function memberLocCallback(response) {
-   try {
-      rsvpTable.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
-	if(this.data().memberId === response.data.id) {
-	   this.data().location = response.data.city + ", " + response.data.state;
-	   this.invalidate().draw();
-	}
-      } );
-   }
-   catch(err) {
-      console.log(err.message);
-   }
 }
 
 function rsvpCallback(response){
    for (var key in response.data) {
       var name = response.data[key].member.event_context.host === true ? "<b>" + response.data[key].member.name + "</b>" : response.data[key].member.name;
       rsvpData.push({"memberId" : response.data[key].member.id, "name": name, "location": "n/a", "response" : response.data[key].response});
-
-      var URL = "https://api.meetup.com/" + getParam("urlname") + "/members/" + response.data[key].member.id + "?access_token=" + getParam('access_token');
-      $.ajax({ url: URL, async: false, dataType: "jsonp", jsonpCallback: "memberLocCallback" });
    }
 
    rsvpTable = $(rsvpGrid).DataTable( {
@@ -67,6 +53,30 @@ function rsvpCallback(response){
       data: rsvpData,
       "columns": [ { "data" : "name" }, {"data" : "location"}, {"data" : "response"} ]
    } );
+
+   var current = 0;
+
+   function getNextLoc() {
+      if (current < rsvpData.length) {
+         var URL = "https://api.meetup.com/" + getParam("urlname") + "/members/" + rsvpData[current].member.id + "?access_token=" + getParam('access_token');
+	 $.ajax({ url: URL, dataType: "jsonp", success  : function (response) {
+	   try {
+	      rsvpTable.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+		if(this.data().memberId === response.data.id) {
+		   this.data().location = response.data.city + ", " + response.data.state;
+		   this.invalidate().draw();
+		}
+	      } );
+	   } catch(err) {
+	      console.log(err.message);
+	   }
+	   current++;
+	   getNextLoc();
+	 } });
+      }
+   }
+
+   getNextLoc();
 }
 
 function commentsCallback(response){
