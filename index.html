@@ -83,12 +83,12 @@ function notificationsCallback(response){
 }
 
 function requestDashboard() {
-    var URL = "https://api.meetup.com/dashboard?access_token=" + getAccessToken();
+    var URL = "https://api.meetup.com/dashboard?access_token=" + getUrlParm('access_token');
     $.ajax({ url: URL, dataType: "jsonp", jsonpCallback: "dashboardCallback" });
 }
 
 function requestNotifications() {
-    var URL = "https://api.meetup.com/notifications?access_token=" + getAccessToken();
+    var URL = "https://api.meetup.com/notifications?access_token=" + getUrlParm('access_token');
     $.ajax({ url: URL, dataType: "jsonp", jsonpCallback: "notificationsCallback" });
 }
 
