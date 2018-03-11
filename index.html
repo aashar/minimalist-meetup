@@ -34,7 +34,9 @@ function getUrlParm(parm) {
 }
 
 function dashboardCallback(response){
-   if (typeof response.code != undefined && typeof response.data.errors != undefined) {
+   if (typeof response.code != undefined || typeof response.data.errors != undefined) {
+      console.log(response);
+   } else {
       var para = document.createElement("p");
       var paraString = "<A class='topButton' HREF='events.html?access_token=" + getUrlParm('access_token') + "'>Upcoming events</A>&nbsp;&nbsp;&nbsp;" +
 		       "<A class='topButton' HREF='activities.html?access_token=" + getUrlParm('access_token') + "'>Activity</A><hr/>";
@@ -61,8 +63,6 @@ function dashboardCallback(response){
 
       para.innerHTML = paraString;
       document.getElementById("summary").appendChild(para);
-   } else {
-      console.log(response);
    }
 }
 
