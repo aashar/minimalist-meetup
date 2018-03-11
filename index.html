@@ -43,7 +43,7 @@ function dashboardCallback(response){
        "Prev event - <A HREF='" + response.last_event.event_url + "'>" + response.last_event.name + "</A> with " + response.last_event.group.name +
 	" at " + "<A HREF='https://www.google.com/maps/search/?api=1&query=" + response.last_event.venue.lat + "," +
 	response.last_event.venue.lon + "'>" + response.last_event.venue.city + ", " +
-	response.last_event.venue.state + "</A> on " + new Date(response.last_event.time).toDateString() + "<BR/>" +
+	response.last_event.venue.state + "</A> on " + new Date(response.last_event.time).toDateString() + "<BR/>";
   }
 
   if (typeof response.next_event != undefined) {
