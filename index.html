@@ -40,8 +40,8 @@ function dashboardCallback(response){
   var waitListed = response.next_event.waitlist_count != 0 ? ", waitlisted " + response.next_event.waitlist_count : "";
 
   para.innerHTML = 
-    "<A class='topButton' HREF='events.html?access_token=" + getAccessToken() + "'>Upcoming events</A>&nbsp;&nbsp;&nbsp;" +
-    "<A class='topButton' HREF='activities.html?access_token=" + getAccessToken() + "'>Activity</A><hr/>" +
+    "<A class='topButton' HREF='events.html?access_token=" + getUrlParm('access_token') + "'>Upcoming events</A>&nbsp;&nbsp;&nbsp;" +
+    "<A class='topButton' HREF='activities.html?access_token=" + getUrlParm('access_token') + "'>Activity</A><hr/>" +
        "Prev event - <A HREF='" + response.last_event.event_url + "'>" + response.last_event.name + "</A> with " + response.last_event.group.name +
 	" at " + "<A HREF='https://www.google.com/maps/search/?api=1&query=" + response.last_event.venue.lat + "," +
 	response.last_event.venue.lon + "'>" + response.last_event.venue.city + ", " +
