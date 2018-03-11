@@ -27,7 +27,7 @@ function activityCallback(response){
   $(eventsGrid).DataTable( {
     "paging":   false,
     "info":     false,
-    "data": response.data.results,
+    "data": response.results,
     "columns": [
 	{ "data": "published" },
 	{ "data": "item_type" },
