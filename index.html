@@ -34,12 +34,15 @@ function getUrlParm(parm) {
 }
 
 function dashboardCallback(response){
-   if (getUrlParm('access_token') != null) {
+   if (response.data.errors[0].code === "auth_fail")
+      var authUrl = "https://secure.meetup.com/oauth2/authorize?client_id=utrb5b1laqujntlbvvs4rg6p7h&response_type=token&redirect_uri=https://rawgit.com/aashar/minimalist-meetup/master/index.html";
+      window.location.href = authUrl;
+   } else if (getUrlParm('access_token') != null) {
       var para = document.createElement("p");
       var paraString = "<A class='topButton' HREF='events.html?access_token=" + getUrlParm('access_token') + "'>Upcoming events</A>&nbsp;&nbsp;&nbsp;" +
 		       "<A class='topButton' HREF='activities.html?access_token=" + getUrlParm('access_token') + "'>Activity</A><hr/>";
 
-      if (typeof response.last_event != undefined) {
+      if (typeof response.last_event != "undefined") {
 	 paraString = paraString +
 	    "Prev event - <A HREF='" + response.last_event.event_url + "'>" + response.last_event.name + "</A> with " + response.last_event.group.name +
 	    " at " + "<A HREF='https://www.google.com/maps/search/?api=1&query=" + response.last_event.venue.lat + "," +
@@ -47,7 +50,7 @@ function dashboardCallback(response){
 	 response.last_event.venue.state + "</A> on " + new Date(response.last_event.time).toDateString() + "<BR/>";
       }
 
-      if (typeof response.next_event != undefined) {
+      if (typeof response.next_event != "undefined") {
 	 var maxLimit = typeof response.next_event.rsvp_limit === 'undefined' ? "" : " of " + 	response.next_event.rsvp_limit + " max";
 	 var waitListed = response.next_event.waitlist_count != 0 ? ", waitlisted " + response.next_event.waitlist_count : "";
 
