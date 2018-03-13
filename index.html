@@ -73,7 +73,7 @@ function notificationsCallback(response){
       notifData.push(response.data[key]);
    }
 
-   if (notifData.length > 0 && typeof notifData[0].updated != undefined) {
+   if (notifData.length > 0 && typeof notifData[0].updated != "undefined") {
       $(notificationsGrid).DataTable( {
 	 "paging":   false,
 	 "ordering": false,
